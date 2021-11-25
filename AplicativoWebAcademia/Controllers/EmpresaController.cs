@@ -12,12 +12,18 @@ namespace AplicativoWebAcademia.Controllers
         {
             _logger = logger;
         }
-
+        public ActionResult Save([Bind("Codigo, Nome, NomeFantasia, CNPJ")] EmpresaModel empresaModel)
+        {
+            return View("~/Views/Home/Index.cshtml");
+        }
+        public ActionResult Cadastrar()
+        {
+            return View();
+        }
         public IActionResult Index()
         {
             return View();
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

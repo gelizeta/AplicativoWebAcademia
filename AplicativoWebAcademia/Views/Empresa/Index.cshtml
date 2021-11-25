@@ -1,29 +1,29 @@
-﻿@{
+﻿@model EmpresaModel
+@{
     ViewData["Title"] = "Empresa";
 }
-
 <div class="text-center">
     <h1 class="display-4">Area de cadastro de Empresas</h1>
 </div>
 <div class="p-5 mb-6 bg-light rounded-3">
     <div class="container-fluid py-5">
         <h1 class="display-5 fw-bold">Preencha as informações abaixo</h1>
-        <form>
+        <form asp-action="Save">
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Nome:</label>
-                <input type="" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Nome Fantasia</label>
-                <input type="" class="form-control" id="exampleInputPassword1">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">CNPJ</label>
-                <input type="" class="form-control" id="exampleInputPassword1">
-            </div>
-            <div class="mb-3 form-check">
-            </div>
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <label for="exampleInputEmail1" class="form-label">Nome:</label>
+                    <input type="text" class="form-control" id="Nome" asp-for="Nome" placeholder="Nome da Empresa" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Nome Fantasia</label>
+                    <input type="text" class="form-control" id="NomeFantasia" asp-for=" NomeFantasia" placeholder="Nome Fantasia" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">CNPJ</label>
+                    <input type="text" class="form-control" id="CNPJ" asp-for="CNPJ" placeorder="CNPJ" required="">
+                </div>
+                <div class="mb-3 form-check">
+                </div>
+                <button type="submit" value="Cadastrar" class="btn btn-primary">Cadastrar</button>
         </form>
     </div>
 </div>
