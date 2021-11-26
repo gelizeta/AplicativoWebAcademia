@@ -14,6 +14,7 @@ namespace AplicativoWebAcademia.Models
         public decimal Salario { get; set; }
         [Display(Name = "Data de Nascimento")]
         public DateTime DataNascimento { get; set; }
+        [Display(Name = "Situação")]
         public string Alterar { get; set; }
     }
 }
