@@ -58,7 +58,34 @@ namespace AplicativoWebAcademia.Controllers
         public async Task<IActionResult> Create([Bind("Codigo,Nome,QuantidadeFilhos,Email,Salario,DataNascimento")] PessoaModel pessoaModel)
         {
             pessoaModel.Alterar = "Ativo";
-            _context.Update(pessoaModel);
+            if (PessoaRegras.VerificaFilhos(pessoaModel.QuantidadeFilhos))
+            {
+                ModelState.AddModelError("", "A quantidade minima de filhos é zero!");
+                return View(pessoaModel);
+            }
+            if (PessoaRegras.VerificaNascimento(pessoaModel.DataNascimento))
+            {
+                ModelState.AddModelError("", "A data de nascimento deve ser igual ou superior a 01/01/1990");
+                return View(pessoaModel);
+            }
+            if (PessoaRegras.VerificaSalarioMin(pessoaModel.Salario))
+            {
+                ModelState.AddModelError("", "O salário não pode ser inferior a R$ 1.200");
+                return View(pessoaModel);
+            }
+            if (PessoaRegras.VerificaSalarioMax(pessoaModel.Salario))
+            {
+                ModelState.AddModelError("", "O salário não pode ser superior a R$ 13.000");
+                return View(pessoaModel);
+            }
+            var pessoaEmail = _context.PessoaModel.Where(x => x.Email.Equals(pessoaModel.Email));
+            if (pessoaEmail.Count() > 0)
+            {
+                ModelState.AddModelError("", "O Email já está cadastrado!");
+                return View(pessoaModel);
+            }
+            _context.PessoaModel.AddAsync(pessoaModel);
+            _context.SaveChangesAsync();
             return View(pessoaModel);
         }
        
@@ -94,33 +121,33 @@ namespace AplicativoWebAcademia.Controllers
             {
                 if (PessoaRegras.VerificaFilhos(pessoaModel.QuantidadeFilhos))
                 {
-                    ModelState.AddModelError("regras", "A quantidade minima de filhos é zero!");
+                    ModelState.AddModelError("", "A quantidade minima de filhos é zero!");
                     return View(pessoaModel);
                 }
                 if (PessoaRegras.VerificaNascimento(pessoaModel.DataNascimento))
                 {
-                    ModelState.AddModelError("regras", "A data de nascimento deve ser igual ou superior a 01/01/1990");
+                    ModelState.AddModelError("", "A data de nascimento deve ser igual ou superior a 01/01/1990");
                     return View(pessoaModel);
                 }
                 if (PessoaRegras.VerificaSalarioMin(pessoaModel.Salario))
                 {
-                    ModelState.AddModelError("regras", "O salário não pode ser inferior a R$ 1.200");
+                    ModelState.AddModelError("", "O salário não pode ser inferior a R$ 1.200");
                     return View(pessoaModel);
                 }
                 if (PessoaRegras.VerificaSalarioMax(pessoaModel.Salario))
                 {
-                    ModelState.AddModelError("regras", "O salário não pode ser superior a R$ 13.000");
+                    ModelState.AddModelError("", "O salário não pode ser superior a R$ 13.000");
                     return View(pessoaModel);
                 }
                 var pessoaEmail = _context.PessoaModel.Where(x => x.Email.Equals(pessoaModel.Email) && x.Codigo != pessoaModel.Codigo);
                 if (pessoaEmail.Count() > 0)
                 {
-                    ModelState.AddModelError("regras", "O Email já está cadastrado!");
+                    ModelState.AddModelError("", "O Email já está cadastrado!");
                     return View(pessoaModel);
                 }
                 if (PessoaRegras.VerificaInativo(pessoaModel.Alterar))
                 {
-                    ModelState.AddModelError("regras", "Não é possivel editar uma pessoa na situação 'Inativo'");
+                    ModelState.AddModelError("", "Não é possivel editar uma pessoa na situação 'Inativo'");
                     return View(pessoaModel);
                 }
                 try
@@ -184,7 +211,7 @@ namespace AplicativoWebAcademia.Controllers
             var pessoaModel = await _context.PessoaModel.FindAsync(id);
             if (PessoaRegras.VerificaAtivo(pessoaModel.Alterar))
             {
-                ModelState.AddModelError("regras", "Não é possivel excluir uma pessoa na situação 'Ativo'");
+                ModelState.AddModelError("", "Não é possivel excluir uma pessoa na situação 'Ativo'");
                 return View(pessoaModel);
             }
             _context.PessoaModel.Remove(pessoaModel);
@@ -203,11 +230,11 @@ namespace AplicativoWebAcademia.Controllers
             var pessoaModel = await _context.PessoaModel.FindAsync(id);
             if (pessoaModel.Alterar.Equals("Ativo"))
             {
-                pessoaModel.Alterar = "Ativo";
+                pessoaModel.Alterar = "Inativo";
             }
             else
             {
-                pessoaModel.Alterar = "Inativo";
+                pessoaModel.Alterar = "Ativo";
             }
             _context.Update(pessoaModel);
             await _context.SaveChangesAsync();
