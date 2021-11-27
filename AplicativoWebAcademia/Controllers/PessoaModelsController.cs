@@ -84,9 +84,9 @@ namespace AplicativoWebAcademia.Controllers
                 ModelState.AddModelError("", "O Email já está cadastrado!");
                 return View(pessoaModel);
             }
-            _context.PessoaModel.AddAsync(pessoaModel);
-            _context.SaveChangesAsync();
-            return View(pessoaModel);
+            _context.Add(pessoaModel);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
        
         // GET: PessoaModels/Edit/5
@@ -211,8 +211,7 @@ namespace AplicativoWebAcademia.Controllers
             var pessoaModel = await _context.PessoaModel.FindAsync(id);
             if (PessoaRegras.VerificaAtivo(pessoaModel.Alterar))
             {
-                ModelState.AddModelError("", "Não é possivel excluir uma pessoa na situação 'Ativo'");
-                return View(pessoaModel);
+                return RedirectToAction(nameof(Index));
             }
             _context.PessoaModel.Remove(pessoaModel);
             await _context.SaveChangesAsync();

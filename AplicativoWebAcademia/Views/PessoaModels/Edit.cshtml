@@ -1,12 +1,12 @@
 ﻿@model AplicativoWebAcademia.Models.PessoaModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar";
 }
 
-<h1>Edit</h1>
+<h1>Editar</h1>
 
-<h4>PessoaModel</h4>
+<h4>Pessoa Fisica</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -46,7 +46,7 @@
                 </select>
                 <span asp-validation-for="Salario" class="text-danger"></span>
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="submit" value="Salvar" class="btn btn-success" />
                 </div>
             </div>
         </form>
@@ -54,7 +54,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-outline-danger">Voltar a aba de clientes</a>
 </div>
 
 @section Scripts {

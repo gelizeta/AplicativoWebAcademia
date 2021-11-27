@@ -28,7 +28,7 @@ namespace AplicativoWebAcademia.regras
         }
         public static bool EditarPessoaInativa(string SituaçãoPessoa)
         {
-            if (SituaçãoPessoa.Equals("Inativa"))
+            if (SituaçãoPessoa.Equals("Inativo"))
             {
                 return false;
             }
@@ -61,7 +61,7 @@ namespace AplicativoWebAcademia.regras
         }
         public static bool VerificaAtivo(string SituaçãoPessoa)
         {
-            if (SituaçãoPessoa.Equals("Inativa"))
+            if (SituaçãoPessoa.Equals("Inativo"))
             {
                 return false;
             }
